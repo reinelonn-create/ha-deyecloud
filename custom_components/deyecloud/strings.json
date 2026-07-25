@@ -1,0 +1,26 @@
+{
+  "title": "DeyeCloud",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Anslut till DeyeCloud",
+        "description": "Ange uppgifterna från din DeyeCloud OpenAPI-applikation.",
+        "data": {
+          "app_id": "App ID",
+          "app_secret": "App Secret",
+          "email": "E-postadress",
+          "password": "DeyeCloud-lösenord",
+          "base_url": "API-basadress"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Kunde inte ansluta till DeyeCloud.",
+      "invalid_auth": "Autentiseringen misslyckades. Kontrollera uppgifterna.",
+      "unknown": "Ett oväntat fel inträffade."
+    },
+    "abort": {
+      "already_configured": "Det här DeyeCloud-kontot är redan konfigurerat."
+    }
+  }
+}

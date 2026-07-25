@@ -1,0 +1,10 @@
+{
+  "domain": "deyecloud",
+  "name": "DeyeCloud",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://developer.deyecloud.com/start",
+  "iot_class": "cloud_polling",
+  "version": "0.1.0",
+  "integration_type": "hub"
+}
