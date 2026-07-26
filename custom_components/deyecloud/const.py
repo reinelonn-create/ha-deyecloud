@@ -1,7 +1,14 @@
 """Constants for the DeyeCloud integration."""
 
+from __future__ import annotations
+
+from homeassistant.const import Platform
+
 DOMAIN = "deyecloud"
-PLATFORMS: list[str] = []
+
+PLATFORMS: tuple[Platform, ...] = (
+    Platform.SENSOR,
+)
 
 CONF_APP_ID = "app_id"
 CONF_APP_SECRET = "app_secret"

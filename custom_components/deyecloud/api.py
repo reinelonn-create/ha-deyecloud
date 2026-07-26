@@ -1,11 +1,14 @@
-"""Minimal asynchronous client for the DeyeCloud OpenAPI."""
+"""Asynchronous client for the DeyeCloud OpenAPI."""
 
 from __future__ import annotations
 
 import hashlib
+import logging
 from typing import Any
 
 from aiohttp import ClientError, ClientResponseError, ClientSession
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class DeyeCloudApiError(Exception):
@@ -33,6 +36,7 @@ class DeyeCloudApi:
         email: str,
         password: str,
     ) -> None:
+        """Initialize the DeyeCloud API client."""
         self._session = session
         self._base_url = base_url.rstrip("/")
         self._app_id = app_id
@@ -41,10 +45,21 @@ class DeyeCloudApi:
         self._password = password
         self._access_token: str | None = None
 
+        # Log the complete device/latest response only once per
+        # Home Assistant restart.
+        self._latest_response_logged = False
+
     async def async_authenticate(self) -> None:
         """Authenticate and cache an access token."""
-        password_hash = hashlib.sha256(self._password.encode("utf-8")).hexdigest()
-        url = f"{self._base_url}/v1.0/account/token?appId={self._app_id}"
+        password_hash = hashlib.sha256(
+            self._password.encode("utf-8")
+        ).hexdigest()
+
+        url = (
+            f"{self._base_url}/v1.0/account/token"
+            f"?appId={self._app_id}"
+        )
+
         payload = {
             "appSecret": self._app_secret,
             "email": self._email,
@@ -52,16 +67,30 @@ class DeyeCloudApi:
         }
 
         try:
-            async with self._session.post(url, json=payload, timeout=30) as response:
+            async with self._session.post(
+                url,
+                json=payload,
+                timeout=30,
+            ) as response:
                 response.raise_for_status()
-                data: dict[str, Any] = await response.json(content_type=None)
+                data: dict[str, Any] = await response.json(
+                    content_type=None
+                )
         except ClientResponseError as err:
-            raise DeyeCloudAuthError(f"HTTP error during authentication: {err.status}") from err
+            raise DeyeCloudAuthError(
+                f"HTTP error during authentication: {err.status}"
+            ) from err
         except (ClientError, TimeoutError, ValueError) as err:
-            raise DeyeCloudConnectionError("Unable to contact DeyeCloud") from err
+            raise DeyeCloudConnectionError(
+                "Unable to contact DeyeCloud"
+            ) from err
 
         if not data.get("success") or not data.get("accessToken"):
-            message = data.get("msg") or data.get("code") or "Authentication failed"
+            message = (
+                data.get("msg")
+                or data.get("code")
+                or "Authentication failed"
+            )
             raise DeyeCloudAuthError(str(message))
 
         self._access_token = str(data["accessToken"])
@@ -72,35 +101,210 @@ class DeyeCloudApi:
             await self.async_authenticate()
 
         url = f"{self._base_url}/v1.0/station/list"
-        headers = {"Authorization": f"Bearer {self._access_token}"}
-        payload = {"page": 1, "size": 200}
+        headers = {
+            "Authorization": f"Bearer {self._access_token}",
+        }
+        payload = {
+            "page": 1,
+            "size": 200,
+        }
 
         try:
             async with self._session.post(
-                url, headers=headers, json=payload, timeout=30
+                url,
+                headers=headers,
+                json=payload,
+                timeout=30,
             ) as response:
                 response.raise_for_status()
-                data: dict[str, Any] = await response.json(content_type=None)
+                data: dict[str, Any] = await response.json(
+                    content_type=None
+                )
         except ClientResponseError as err:
             if err.status in (401, 403):
                 self._access_token = None
-                raise DeyeCloudAuthError("DeyeCloud rejected the access token") from err
-            raise DeyeCloudApiError(f"HTTP error while listing stations: {err.status}") from err
+                raise DeyeCloudAuthError(
+                    "DeyeCloud rejected the access token"
+                ) from err
+
+            raise DeyeCloudApiError(
+                f"HTTP error while listing stations: {err.status}"
+            ) from err
         except (ClientError, TimeoutError, ValueError) as err:
-            raise DeyeCloudConnectionError("Unable to contact DeyeCloud") from err
+            raise DeyeCloudConnectionError(
+                "Unable to contact DeyeCloud"
+            ) from err
 
         if not data.get("success"):
-            message = data.get("msg") or data.get("code") or "Station query failed"
+            message = (
+                data.get("msg")
+                or data.get("code")
+                or "Station query failed"
+            )
             raise DeyeCloudApiError(str(message))
 
-        for key in ("stationList", "stationListItems", "list"):
+        for key in (
+            "stationList",
+            "stationListItems",
+            "list",
+        ):
             value = data.get(key)
+
             if isinstance(value, list):
+                return [
+                    item
+                    for item in value
+                    if isinstance(item, dict)
+                ]
+
+        for value in data.values():
+            if (
+                isinstance(value, list)
+                and all(isinstance(item, dict) for item in value)
+            ):
                 return value
 
-        # Keep the first version tolerant of response-wrapper differences.
-        for value in data.values():
-            if isinstance(value, list) and all(isinstance(item, dict) for item in value):
-                return value
+        return []
+
+    async def async_list_station_devices(
+        self,
+        station_id: int | str,
+    ) -> list[dict[str, Any]]:
+        """Return devices connected to a station."""
+        if self._access_token is None:
+            await self.async_authenticate()
+
+        url = f"{self._base_url}/v1.0/station/device"
+        headers = {
+            "Authorization": f"Bearer {self._access_token}",
+        }
+        payload = {
+            "stationIds": [station_id],
+            "page": 1,
+            "size": 200,
+        }
+
+        try:
+            async with self._session.post(
+                url,
+                headers=headers,
+                json=payload,
+                timeout=30,
+            ) as response:
+                response.raise_for_status()
+                data: dict[str, Any] = await response.json(
+                    content_type=None
+                )
+        except ClientResponseError as err:
+            if err.status in (401, 403):
+                self._access_token = None
+                raise DeyeCloudAuthError(
+                    "DeyeCloud rejected the access token"
+                ) from err
+
+            raise DeyeCloudApiError(
+                "HTTP error while listing station devices: "
+                f"{err.status}"
+            ) from err
+        except (ClientError, TimeoutError, ValueError) as err:
+            raise DeyeCloudConnectionError(
+                "Unable to contact DeyeCloud"
+            ) from err
+
+        if not data.get("success"):
+            message = (
+                data.get("msg")
+                or data.get("code")
+                or "Device query failed"
+            )
+            raise DeyeCloudApiError(str(message))
+
+        devices = data.get("deviceListItems")
+
+        if isinstance(devices, list):
+            return [
+                item
+                for item in devices
+                if isinstance(item, dict)
+            ]
+
+        return []
+
+    async def async_get_device_latest(
+        self,
+        device_sns: list[str],
+    ) -> list[dict[str, Any]]:
+        """Return the latest data for up to ten devices."""
+        if self._access_token is None:
+            await self.async_authenticate()
+
+        normalized_device_sns = [
+            str(device_sn)
+            for device_sn in device_sns
+            if device_sn
+        ][:10]
+
+        if not normalized_device_sns:
+            return []
+
+        url = f"{self._base_url}/v1.0/device/latest"
+        headers = {
+            "Authorization": f"Bearer {self._access_token}",
+        }
+        payload = {
+            "deviceList": normalized_device_sns,
+        }
+
+        try:
+            async with self._session.post(
+                url,
+                headers=headers,
+                json=payload,
+                timeout=30,
+            ) as response:
+                response.raise_for_status()
+                data: dict[str, Any] = await response.json(
+                    content_type=None
+                )
+        except ClientResponseError as err:
+            if err.status in (401, 403):
+                self._access_token = None
+                raise DeyeCloudAuthError(
+                    "DeyeCloud rejected the access token"
+                ) from err
+
+            raise DeyeCloudApiError(
+                "HTTP error while fetching latest device data: "
+                f"{err.status}"
+            ) from err
+        except (ClientError, TimeoutError, ValueError) as err:
+            raise DeyeCloudConnectionError(
+                "Unable to contact DeyeCloud"
+            ) from err
+
+        if not data.get("success"):
+            message = (
+                data.get("msg")
+                or data.get("code")
+                or "Latest device data query failed"
+            )
+            raise DeyeCloudApiError(str(message))
+
+        if not self._latest_response_logged:
+            _LOGGER.warning(
+                "DeyeCloud diagnostic response from "
+                "/v1.0/device/latest: %s",
+                data,
+            )
+            self._latest_response_logged = True
+
+        device_data = data.get("deviceDataList")
+
+        if isinstance(device_data, list):
+            return [
+                item
+                for item in device_data
+                if isinstance(item, dict)
+            ]
 
         return []

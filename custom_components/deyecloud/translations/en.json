@@ -3,187 +3,187 @@
   "entity": {
     "sensor": {
       "rated_power": {
-        "name": "Märkeffekt"
+        "name": "Rated power"
       },
       "solar_power": {
-        "name": "Soleffekt"
+        "name": "Solar power"
       },
       "inverter_output_power": {
-        "name": "Växelriktareffekt"
+        "name": "Inverter output power"
       },
       "consumption_power": {
-        "name": "Förbrukningseffekt"
+        "name": "Consumption power"
       },
       "grid_power": {
-        "name": "Näteffekt"
+        "name": "Grid power"
       },
       "pv1_voltage": {
-        "name": "PV1 spänning"
+        "name": "PV1 voltage"
       },
       "pv1_current": {
-        "name": "PV1 ström"
+        "name": "PV1 current"
       },
       "pv1_power": {
-        "name": "PV1 effekt"
+        "name": "PV1 power"
       },
       "pv2_voltage": {
-        "name": "PV2 spänning"
+        "name": "PV2 voltage"
       },
       "pv2_current": {
-        "name": "PV2 ström"
+        "name": "PV2 current"
       },
       "pv2_power": {
-        "name": "PV2 effekt"
+        "name": "PV2 power"
       },
       "pv3_voltage": {
-        "name": "PV3 spänning"
+        "name": "PV3 voltage"
       },
       "pv3_current": {
-        "name": "PV3 ström"
+        "name": "PV3 current"
       },
       "pv3_power": {
-        "name": "PV3 effekt"
+        "name": "PV3 power"
       },
       "pv4_voltage": {
-        "name": "PV4 spänning"
+        "name": "PV4 voltage"
       },
       "pv4_current": {
-        "name": "PV4 ström"
+        "name": "PV4 current"
       },
       "pv4_power": {
-        "name": "PV4 effekt"
+        "name": "PV4 power"
       },
       "inverter_voltage_l1": {
-        "name": "Växelriktarspänning L1"
+        "name": "Inverter voltage L1"
       },
       "inverter_voltage_l2": {
-        "name": "Växelriktarspänning L2"
+        "name": "Inverter voltage L2"
       },
       "inverter_voltage_l3": {
-        "name": "Växelriktarspänning L3"
+        "name": "Inverter voltage L3"
       },
       "inverter_current_l1": {
-        "name": "Växelriktarström L1"
+        "name": "Inverter current L1"
       },
       "inverter_current_l2": {
-        "name": "Växelriktarström L2"
+        "name": "Inverter current L2"
       },
       "inverter_current_l3": {
-        "name": "Växelriktarström L3"
+        "name": "Inverter current L3"
       },
       "inverter_output_power_l1": {
-        "name": "Växelriktareffekt L1"
+        "name": "Inverter output power L1"
       },
       "inverter_output_power_l2": {
-        "name": "Växelriktareffekt L2"
+        "name": "Inverter output power L2"
       },
       "inverter_output_power_l3": {
-        "name": "Växelriktareffekt L3"
+        "name": "Inverter output power L3"
       },
       "grid_voltage_l1": {
-        "name": "Nätspänning L1"
+        "name": "Grid voltage L1"
       },
       "grid_current_l1": {
-        "name": "Nätström L1"
+        "name": "Grid current L1"
       },
       "grid_power_l1": {
-        "name": "Näteffekt L1"
+        "name": "Grid power L1"
       },
       "grid_voltage_l2": {
-        "name": "Nätspänning L2"
+        "name": "Grid voltage L2"
       },
       "grid_current_l2": {
-        "name": "Nätström L2"
+        "name": "Grid current L2"
       },
       "grid_power_l2": {
-        "name": "Näteffekt L2"
+        "name": "Grid power L2"
       },
       "grid_voltage_l3": {
-        "name": "Nätspänning L3"
+        "name": "Grid voltage L3"
       },
       "grid_current_l3": {
-        "name": "Nätström L3"
+        "name": "Grid current L3"
       },
       "grid_power_l3": {
-        "name": "Näteffekt L3"
+        "name": "Grid power L3"
       },
       "grid_frequency": {
-        "name": "Nätfrekvens"
+        "name": "Grid frequency"
       },
       "battery_power": {
-        "name": "Batterieffekt"
+        "name": "Battery power"
       },
       "battery_state_of_charge": {
-        "name": "Batteriets laddningsnivå"
+        "name": "Battery state of charge"
       },
       "battery_voltage": {
-        "name": "Batterispänning"
+        "name": "Battery voltage"
       },
       "battery_current": {
-        "name": "Batteriström"
+        "name": "Battery current"
       },
       "battery_temperature": {
-        "name": "Batteritemperatur"
+        "name": "Battery temperature"
       },
       "daily_battery_charge": {
-        "name": "Dagens batteriladdning"
+        "name": "Daily battery charge"
       },
       "daily_battery_discharge": {
-        "name": "Dagens batteriurladdning"
+        "name": "Daily battery discharge"
       },
       "total_battery_charge": {
-        "name": "Total batteriladdning"
+        "name": "Total battery charge"
       },
       "total_battery_discharge": {
-        "name": "Total batteriurladdning"
+        "name": "Total battery discharge"
       },
       "bms_state_of_charge": {
-        "name": "BMS laddningsnivå"
+        "name": "BMS state of charge"
       },
       "bms_voltage": {
-        "name": "BMS-spänning"
+        "name": "BMS voltage"
       },
       "bms_current": {
-        "name": "BMS-ström"
+        "name": "BMS current"
       },
       "bms_charge_voltage_limit": {
-        "name": "BMS laddspänningsgräns"
+        "name": "BMS charge voltage limit"
       },
       "bms_discharge_voltage_limit": {
-        "name": "BMS urladdningsspänningsgräns"
+        "name": "BMS discharge voltage limit"
       },
       "battery_rated_capacity": {
-        "name": "Batteriets nominella kapacitet"
+        "name": "Battery rated capacity"
       },
       "battery_2_state_of_health": {
-        "name": "Batteri 2 hälsotillstånd"
+        "name": "Battery 2 state of health"
       },
       "daily_production": {
-        "name": "Dagens produktion"
+        "name": "Daily production"
       },
       "total_production": {
-        "name": "Total produktion"
+        "name": "Total production"
       },
       "daily_consumption": {
-        "name": "Dagens förbrukning"
+        "name": "Daily consumption"
       },
       "total_consumption": {
-        "name": "Total förbrukning"
+        "name": "Total consumption"
       },
       "daily_grid_feed_in": {
-        "name": "Dagens nätinmatning"
+        "name": "Daily grid feed-in"
       },
       "daily_energy_purchased": {
-        "name": "Dagens nätköp"
+        "name": "Daily energy purchased"
       },
       "total_energy_bought": {
-        "name": "Totalt nätköp"
+        "name": "Total energy bought"
       },
       "total_energy_sold": {
-        "name": "Total nätinmatning"
+        "name": "Total energy sold"
       },
       "inverter_temperature": {
-        "name": "Växelriktartemperatur"
+        "name": "Inverter temperature"
       }
     }
   }
