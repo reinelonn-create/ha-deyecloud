@@ -1,129 +1,74 @@
 {
-  "title": "DeyeCloud",
   "entity": {
     "sensor": {
-      "rated_power": {
-        "name": "Märkeffekt"
+      "ac_l1_current": {
+        "name": "AC L1-ström"
       },
-      "solar_power": {
-        "name": "Soleffekt"
+      "ac_l1_power": {
+        "name": "AC L1-effekt"
       },
-      "inverter_output_power": {
-        "name": "Växelriktareffekt"
+      "ac_l1_voltage": {
+        "name": "AC L1-spänning"
       },
-      "consumption_power": {
-        "name": "Förbrukningseffekt"
+      "ac_l2_current": {
+        "name": "AC L2-ström"
       },
-      "grid_power": {
-        "name": "Näteffekt"
+      "ac_l2_power": {
+        "name": "AC L2-effekt"
       },
-      "pv1_voltage": {
-        "name": "PV1 spänning"
+      "ac_l2_voltage": {
+        "name": "AC L2-spänning"
       },
-      "pv1_current": {
-        "name": "PV1 ström"
+      "ac_l3_current": {
+        "name": "AC L3-ström"
       },
-      "pv1_power": {
-        "name": "PV1 effekt"
+      "ac_l3_power": {
+        "name": "AC L3-effekt"
       },
-      "pv2_voltage": {
-        "name": "PV2 spänning"
-      },
-      "pv2_current": {
-        "name": "PV2 ström"
-      },
-      "pv2_power": {
-        "name": "PV2 effekt"
-      },
-      "pv3_voltage": {
-        "name": "PV3 spänning"
-      },
-      "pv3_current": {
-        "name": "PV3 ström"
-      },
-      "pv3_power": {
-        "name": "PV3 effekt"
-      },
-      "pv4_voltage": {
-        "name": "PV4 spänning"
-      },
-      "pv4_current": {
-        "name": "PV4 ström"
-      },
-      "pv4_power": {
-        "name": "PV4 effekt"
-      },
-      "inverter_voltage_l1": {
-        "name": "Växelriktarspänning L1"
-      },
-      "inverter_voltage_l2": {
-        "name": "Växelriktarspänning L2"
-      },
-      "inverter_voltage_l3": {
-        "name": "Växelriktarspänning L3"
-      },
-      "inverter_current_l1": {
-        "name": "Växelriktarström L1"
-      },
-      "inverter_current_l2": {
-        "name": "Växelriktarström L2"
-      },
-      "inverter_current_l3": {
-        "name": "Växelriktarström L3"
-      },
-      "inverter_output_power_l1": {
-        "name": "Växelriktareffekt L1"
-      },
-      "inverter_output_power_l2": {
-        "name": "Växelriktareffekt L2"
-      },
-      "inverter_output_power_l3": {
-        "name": "Växelriktareffekt L3"
-      },
-      "grid_voltage_l1": {
-        "name": "Nätspänning L1"
-      },
-      "grid_current_l1": {
-        "name": "Nätström L1"
-      },
-      "grid_power_l1": {
-        "name": "Näteffekt L1"
-      },
-      "grid_voltage_l2": {
-        "name": "Nätspänning L2"
-      },
-      "grid_current_l2": {
-        "name": "Nätström L2"
-      },
-      "grid_power_l2": {
-        "name": "Näteffekt L2"
-      },
-      "grid_voltage_l3": {
-        "name": "Nätspänning L3"
-      },
-      "grid_current_l3": {
-        "name": "Nätström L3"
-      },
-      "grid_power_l3": {
-        "name": "Näteffekt L3"
-      },
-      "grid_frequency": {
-        "name": "Nätfrekvens"
-      },
-      "battery_power": {
-        "name": "Batterieffekt"
-      },
-      "battery_state_of_charge": {
-        "name": "Batteriets laddningsnivå"
-      },
-      "battery_voltage": {
-        "name": "Batterispänning"
+      "ac_l3_voltage": {
+        "name": "AC L3-spänning"
       },
       "battery_current": {
         "name": "Batteriström"
       },
+      "battery_power": {
+        "name": "Batterieffekt"
+      },
+      "battery_rated_capacity": {
+        "name": "Batteriets nominella kapacitet"
+      },
+      "battery_state_of_charge": {
+        "name": "Batteriets laddningsnivå"
+      },
+      "battery_state_of_health": {
+        "name": "Batteriets hälsotillstånd"
+      },
       "battery_temperature": {
         "name": "Batteritemperatur"
+      },
+      "battery_voltage": {
+        "name": "Batterispänning"
+      },
+      "bms_charge_voltage": {
+        "name": "BMS-laddningsspänning"
+      },
+      "bms_current": {
+        "name": "BMS-ström"
+      },
+      "bms_discharge_voltage": {
+        "name": "BMS-urladdningsspänning"
+      },
+      "bms_state_of_charge": {
+        "name": "BMS-laddningsnivå"
+      },
+      "bms_voltage": {
+        "name": "BMS-spänning"
+      },
+      "consumption_apparent_power": {
+        "name": "Skenbar förbrukningseffekt"
+      },
+      "consumption_power": {
+        "name": "Förbrukningseffekt"
       },
       "daily_battery_charge": {
         "name": "Dagens batteriladdning"
@@ -131,59 +76,188 @@
       "daily_battery_discharge": {
         "name": "Dagens batteriurladdning"
       },
+      "daily_consumption": {
+        "name": "Dagens förbrukning"
+      },
+      "daily_energy_purchased": {
+        "name": "Dagens köpta energi"
+      },
+      "daily_grid_feed_in": {
+        "name": "Dagens nätinmatning"
+      },
+      "daily_production": {
+        "name": "Dagens produktion"
+      },
+      "external_ct_l1_power": {
+        "name": "Extern CT-effekt L1"
+      },
+      "external_ct_l2_power": {
+        "name": "Extern CT-effekt L2"
+      },
+      "external_ct_l3_power": {
+        "name": "Extern CT-effekt L3"
+      },
+      "external_ct_total_power": {
+        "name": "Extern CT total effekt"
+      },
+      "generator_active_power": {
+        "name": "Generatorns aktiva effekt"
+      },
+      "generator_l1_power": {
+        "name": "Generatoreffekt L1"
+      },
+      "generator_l1_voltage": {
+        "name": "Generatorspänning L1"
+      },
+      "generator_l2_power": {
+        "name": "Generatoreffekt L2"
+      },
+      "generator_l2_voltage": {
+        "name": "Generatorspänning L2"
+      },
+      "generator_l3_power": {
+        "name": "Generatoreffekt L3"
+      },
+      "generator_l3_voltage": {
+        "name": "Generatorspänning L3"
+      },
+      "generator_total_power": {
+        "name": "Generatorns totala effekt"
+      },
+      "generator_total_production": {
+        "name": "Generatorns totala produktion"
+      },
+      "grid_frequency": {
+        "name": "Nätfrekvens"
+      },
+      "grid_l1_current": {
+        "name": "Nätström L1"
+      },
+      "grid_l1_power": {
+        "name": "Näteffekt L1"
+      },
+      "grid_l1_voltage": {
+        "name": "Nätspänning L1"
+      },
+      "grid_l2_current": {
+        "name": "Nätström L2"
+      },
+      "grid_l2_power": {
+        "name": "Näteffekt L2"
+      },
+      "grid_l2_voltage": {
+        "name": "Nätspänning L2"
+      },
+      "grid_l3_current": {
+        "name": "Nätström L3"
+      },
+      "grid_l3_power": {
+        "name": "Näteffekt L3"
+      },
+      "grid_l3_voltage": {
+        "name": "Nätspänning L3"
+      },
+      "grid_power": {
+        "name": "Näteffekt"
+      },
+      "inverter_output_power": {
+        "name": "Växelriktarens uteffekt"
+      },
+      "inverter_temperature": {
+        "name": "Växelriktartemperatur"
+      },
+      "load_frequency": {
+        "name": "Lastfrekvens"
+      },
+      "load_l1_power": {
+        "name": "Lasteffekt L1"
+      },
+      "load_l1_voltage": {
+        "name": "Lastspänning L1"
+      },
+      "load_l2_power": {
+        "name": "Lasteffekt L2"
+      },
+      "load_l2_voltage": {
+        "name": "Lastspänning L2"
+      },
+      "load_l3_power": {
+        "name": "Lasteffekt L3"
+      },
+      "load_l3_voltage": {
+        "name": "Lastspänning L3"
+      },
+      "load_phase_a_power": {
+        "name": "Lasteffekt fas A"
+      },
+      "load_phase_b_power": {
+        "name": "Lasteffekt fas B"
+      },
+      "load_phase_c_power": {
+        "name": "Lasteffekt fas C"
+      },
+      "pv1_current": {
+        "name": "PV1-ström"
+      },
+      "pv1_power": {
+        "name": "PV1-effekt"
+      },
+      "pv1_voltage": {
+        "name": "PV1-spänning"
+      },
+      "pv2_current": {
+        "name": "PV2-ström"
+      },
+      "pv2_power": {
+        "name": "PV2-effekt"
+      },
+      "pv2_voltage": {
+        "name": "PV2-spänning"
+      },
+      "pv3_current": {
+        "name": "PV3-ström"
+      },
+      "pv3_power": {
+        "name": "PV3-effekt"
+      },
+      "pv3_voltage": {
+        "name": "PV3-spänning"
+      },
+      "pv4_current": {
+        "name": "PV4-ström"
+      },
+      "pv4_power": {
+        "name": "PV4-effekt"
+      },
+      "pv4_voltage": {
+        "name": "PV4-spänning"
+      },
+      "rated_power": {
+        "name": "Märkeffekt"
+      },
+      "solar_power": {
+        "name": "Soleffekt"
+      },
       "total_battery_charge": {
         "name": "Total batteriladdning"
       },
       "total_battery_discharge": {
         "name": "Total batteriurladdning"
       },
-      "bms_state_of_charge": {
-        "name": "BMS laddningsnivå"
+      "total_consumption": {
+        "name": "Total förbrukning"
       },
-      "bms_voltage": {
-        "name": "BMS-spänning"
+      "total_energy_bought": {
+        "name": "Totalt köpt energi"
       },
-      "bms_current": {
-        "name": "BMS-ström"
-      },
-      "bms_charge_voltage_limit": {
-        "name": "BMS laddspänningsgräns"
-      },
-      "bms_discharge_voltage_limit": {
-        "name": "BMS urladdningsspänningsgräns"
-      },
-      "battery_rated_capacity": {
-        "name": "Batteriets nominella kapacitet"
-      },
-      "battery_2_state_of_health": {
-        "name": "Batteri 2 hälsotillstånd"
-      },
-      "daily_production": {
-        "name": "Dagens produktion"
+      "total_energy_sold": {
+        "name": "Totalt såld energi"
       },
       "total_production": {
         "name": "Total produktion"
       },
-      "daily_consumption": {
-        "name": "Dagens förbrukning"
-      },
-      "total_consumption": {
-        "name": "Total förbrukning"
-      },
-      "daily_grid_feed_in": {
-        "name": "Dagens nätinmatning"
-      },
-      "daily_energy_purchased": {
-        "name": "Dagens nätköp"
-      },
-      "total_energy_bought": {
-        "name": "Totalt nätköp"
-      },
-      "total_energy_sold": {
-        "name": "Total nätinmatning"
-      },
-      "inverter_temperature": {
-        "name": "Växelriktartemperatur"
+      "ups_load_power": {
+        "name": "UPS-lasteffekt"
       }
     }
   }

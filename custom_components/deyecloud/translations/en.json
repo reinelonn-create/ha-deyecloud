@@ -1,141 +1,62 @@
 {
-  "title": "DeyeCloud",
   "entity": {
     "sensor": {
-      "rated_power": {
-        "name": "Rated power"
+      "ac_l1_current": {
+        "name": "AC L1 current"
       },
-      "solar_power": {
-        "name": "Solar power"
+      "ac_l1_power": {
+        "name": "AC L1 power"
       },
-      "inverter_output_power": {
-        "name": "Inverter output power"
+      "ac_l1_voltage": {
+        "name": "AC L1 voltage"
       },
-      "consumption_power": {
-        "name": "Consumption power"
+      "ac_l2_current": {
+        "name": "AC L2 current"
       },
-      "grid_power": {
-        "name": "Grid power"
+      "ac_l2_power": {
+        "name": "AC L2 power"
       },
-      "pv1_voltage": {
-        "name": "PV1 voltage"
+      "ac_l2_voltage": {
+        "name": "AC L2 voltage"
       },
-      "pv1_current": {
-        "name": "PV1 current"
+      "ac_l3_current": {
+        "name": "AC L3 current"
       },
-      "pv1_power": {
-        "name": "PV1 power"
+      "ac_l3_power": {
+        "name": "AC L3 power"
       },
-      "pv2_voltage": {
-        "name": "PV2 voltage"
-      },
-      "pv2_current": {
-        "name": "PV2 current"
-      },
-      "pv2_power": {
-        "name": "PV2 power"
-      },
-      "pv3_voltage": {
-        "name": "PV3 voltage"
-      },
-      "pv3_current": {
-        "name": "PV3 current"
-      },
-      "pv3_power": {
-        "name": "PV3 power"
-      },
-      "pv4_voltage": {
-        "name": "PV4 voltage"
-      },
-      "pv4_current": {
-        "name": "PV4 current"
-      },
-      "pv4_power": {
-        "name": "PV4 power"
-      },
-      "inverter_voltage_l1": {
-        "name": "Inverter voltage L1"
-      },
-      "inverter_voltage_l2": {
-        "name": "Inverter voltage L2"
-      },
-      "inverter_voltage_l3": {
-        "name": "Inverter voltage L3"
-      },
-      "inverter_current_l1": {
-        "name": "Inverter current L1"
-      },
-      "inverter_current_l2": {
-        "name": "Inverter current L2"
-      },
-      "inverter_current_l3": {
-        "name": "Inverter current L3"
-      },
-      "inverter_output_power_l1": {
-        "name": "Inverter output power L1"
-      },
-      "inverter_output_power_l2": {
-        "name": "Inverter output power L2"
-      },
-      "inverter_output_power_l3": {
-        "name": "Inverter output power L3"
-      },
-      "grid_voltage_l1": {
-        "name": "Grid voltage L1"
-      },
-      "grid_current_l1": {
-        "name": "Grid current L1"
-      },
-      "grid_power_l1": {
-        "name": "Grid power L1"
-      },
-      "grid_voltage_l2": {
-        "name": "Grid voltage L2"
-      },
-      "grid_current_l2": {
-        "name": "Grid current L2"
-      },
-      "grid_power_l2": {
-        "name": "Grid power L2"
-      },
-      "grid_voltage_l3": {
-        "name": "Grid voltage L3"
-      },
-      "grid_current_l3": {
-        "name": "Grid current L3"
-      },
-      "grid_power_l3": {
-        "name": "Grid power L3"
-      },
-      "grid_frequency": {
-        "name": "Grid frequency"
-      },
-      "battery_power": {
-        "name": "Battery power"
-      },
-      "battery_state_of_charge": {
-        "name": "Battery state of charge"
-      },
-      "battery_voltage": {
-        "name": "Battery voltage"
+      "ac_l3_voltage": {
+        "name": "AC L3 voltage"
       },
       "battery_current": {
         "name": "Battery current"
       },
+      "battery_power": {
+        "name": "Battery power"
+      },
+      "battery_rated_capacity": {
+        "name": "Battery rated capacity"
+      },
+      "battery_state_of_charge": {
+        "name": "Battery state of charge"
+      },
+      "battery_state_of_health": {
+        "name": "Battery state of health"
+      },
       "battery_temperature": {
         "name": "Battery temperature"
       },
-      "daily_battery_charge": {
-        "name": "Daily battery charge"
+      "battery_voltage": {
+        "name": "Battery voltage"
       },
-      "daily_battery_discharge": {
-        "name": "Daily battery discharge"
+      "bms_charge_voltage": {
+        "name": "BMS charge voltage"
       },
-      "total_battery_charge": {
-        "name": "Total battery charge"
+      "bms_current": {
+        "name": "BMS current"
       },
-      "total_battery_discharge": {
-        "name": "Total battery discharge"
+      "bms_discharge_voltage": {
+        "name": "BMS discharge voltage"
       },
       "bms_state_of_charge": {
         "name": "BMS state of charge"
@@ -143,47 +64,200 @@
       "bms_voltage": {
         "name": "BMS voltage"
       },
-      "bms_current": {
-        "name": "BMS current"
+      "consumption_apparent_power": {
+        "name": "Consumption apparent power"
       },
-      "bms_charge_voltage_limit": {
-        "name": "BMS charge voltage limit"
+      "consumption_power": {
+        "name": "Consumption power"
       },
-      "bms_discharge_voltage_limit": {
-        "name": "BMS discharge voltage limit"
+      "daily_battery_charge": {
+        "name": "Daily battery charge"
       },
-      "battery_rated_capacity": {
-        "name": "Battery rated capacity"
-      },
-      "battery_2_state_of_health": {
-        "name": "Battery 2 state of health"
-      },
-      "daily_production": {
-        "name": "Daily production"
-      },
-      "total_production": {
-        "name": "Total production"
+      "daily_battery_discharge": {
+        "name": "Daily battery discharge"
       },
       "daily_consumption": {
         "name": "Daily consumption"
       },
-      "total_consumption": {
-        "name": "Total consumption"
+      "daily_energy_purchased": {
+        "name": "Daily energy purchased"
       },
       "daily_grid_feed_in": {
         "name": "Daily grid feed-in"
       },
-      "daily_energy_purchased": {
-        "name": "Daily energy purchased"
+      "daily_production": {
+        "name": "Daily production"
+      },
+      "external_ct_l1_power": {
+        "name": "External CT L1 power"
+      },
+      "external_ct_l2_power": {
+        "name": "External CT L2 power"
+      },
+      "external_ct_l3_power": {
+        "name": "External CT L3 power"
+      },
+      "external_ct_total_power": {
+        "name": "External CT total power"
+      },
+      "generator_active_power": {
+        "name": "Generator active power"
+      },
+      "generator_l1_power": {
+        "name": "Generator L1 power"
+      },
+      "generator_l1_voltage": {
+        "name": "Generator L1 voltage"
+      },
+      "generator_l2_power": {
+        "name": "Generator L2 power"
+      },
+      "generator_l2_voltage": {
+        "name": "Generator L2 voltage"
+      },
+      "generator_l3_power": {
+        "name": "Generator L3 power"
+      },
+      "generator_l3_voltage": {
+        "name": "Generator L3 voltage"
+      },
+      "generator_total_power": {
+        "name": "Generator total power"
+      },
+      "generator_total_production": {
+        "name": "Generator total production"
+      },
+      "grid_frequency": {
+        "name": "Grid frequency"
+      },
+      "grid_l1_current": {
+        "name": "Grid L1 current"
+      },
+      "grid_l1_power": {
+        "name": "Grid L1 power"
+      },
+      "grid_l1_voltage": {
+        "name": "Grid L1 voltage"
+      },
+      "grid_l2_current": {
+        "name": "Grid L2 current"
+      },
+      "grid_l2_power": {
+        "name": "Grid L2 power"
+      },
+      "grid_l2_voltage": {
+        "name": "Grid L2 voltage"
+      },
+      "grid_l3_current": {
+        "name": "Grid L3 current"
+      },
+      "grid_l3_power": {
+        "name": "Grid L3 power"
+      },
+      "grid_l3_voltage": {
+        "name": "Grid L3 voltage"
+      },
+      "grid_power": {
+        "name": "Grid power"
+      },
+      "inverter_output_power": {
+        "name": "Inverter output power"
+      },
+      "inverter_temperature": {
+        "name": "Inverter temperature"
+      },
+      "load_frequency": {
+        "name": "Load frequency"
+      },
+      "load_l1_power": {
+        "name": "Load L1 power"
+      },
+      "load_l1_voltage": {
+        "name": "Load L1 voltage"
+      },
+      "load_l2_power": {
+        "name": "Load L2 power"
+      },
+      "load_l2_voltage": {
+        "name": "Load L2 voltage"
+      },
+      "load_l3_power": {
+        "name": "Load L3 power"
+      },
+      "load_l3_voltage": {
+        "name": "Load L3 voltage"
+      },
+      "load_phase_a_power": {
+        "name": "Load phase A power"
+      },
+      "load_phase_b_power": {
+        "name": "Load phase B power"
+      },
+      "load_phase_c_power": {
+        "name": "Load phase C power"
+      },
+      "pv1_current": {
+        "name": "PV1 current"
+      },
+      "pv1_power": {
+        "name": "PV1 power"
+      },
+      "pv1_voltage": {
+        "name": "PV1 voltage"
+      },
+      "pv2_current": {
+        "name": "PV2 current"
+      },
+      "pv2_power": {
+        "name": "PV2 power"
+      },
+      "pv2_voltage": {
+        "name": "PV2 voltage"
+      },
+      "pv3_current": {
+        "name": "PV3 current"
+      },
+      "pv3_power": {
+        "name": "PV3 power"
+      },
+      "pv3_voltage": {
+        "name": "PV3 voltage"
+      },
+      "pv4_current": {
+        "name": "PV4 current"
+      },
+      "pv4_power": {
+        "name": "PV4 power"
+      },
+      "pv4_voltage": {
+        "name": "PV4 voltage"
+      },
+      "rated_power": {
+        "name": "Rated power"
+      },
+      "solar_power": {
+        "name": "Solar power"
+      },
+      "total_battery_charge": {
+        "name": "Total battery charge"
+      },
+      "total_battery_discharge": {
+        "name": "Total battery discharge"
+      },
+      "total_consumption": {
+        "name": "Total consumption"
       },
       "total_energy_bought": {
-        "name": "Total energy bought"
+        "name": "Total energy purchased"
       },
       "total_energy_sold": {
         "name": "Total energy sold"
       },
-      "inverter_temperature": {
-        "name": "Inverter temperature"
+      "total_production": {
+        "name": "Total production"
+      },
+      "ups_load_power": {
+        "name": "UPS load power"
       }
     }
   }

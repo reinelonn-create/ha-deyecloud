@@ -291,7 +291,7 @@ class DeyeCloudApi:
             raise DeyeCloudApiError(str(message))
 
         if not self._latest_response_logged:
-            _LOGGER.warning(
+            _LOGGER.debug(
                 "DeyeCloud diagnostic response from "
                 "/v1.0/device/latest: %s",
                 data,

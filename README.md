@@ -1,26 +1,112 @@
 # DeyeCloud for Home Assistant
 
-Experimental Home Assistant custom integration for the official DeyeCloud OpenAPI.
+A Home Assistant custom integration for the official DeyeCloud OpenAPI.
 
-## Current status
+This integration connects Home Assistant to DeyeCloud and automatically imports data from your photovoltaic installation, including power, energy, battery and inverter information.
 
-Version 0.1.0 validates DeyeCloud credentials and verifies that the account's station list can be read. It does not create entities yet.
+## Features
 
-## Installation for development
+- Official DeyeCloud OpenAPI support
+- Config Flow setup
+- Automatic station and device discovery
+- Read-only sensors
+- Efficient polling using DataUpdateCoordinator
+- Swedish and English translations
+- Supports multiple stations
+- HACS compatible
 
-Copy `custom_components/deyecloud` to Home Assistant's `/config/custom_components/deyecloud`, restart Home Assistant, then add **DeyeCloud** from **Settings > Devices & services**.
+## Installation
 
-Use the Europe API base URL for European installations:
+### HACS
 
-`https://eu1-developer.deyecloud.com`
+1. Open HACS.
+2. Go to **Integrations**.
+3. Add this repository as a Custom Repository.
+4. Install **DeyeCloud**.
+5. Restart Home Assistant.
+
+### Manual installation
+
+Copy the folder:
+
+```
+custom_components/deyecloud
+```
+
+to:
+
+```
+config/custom_components/
+```
+
+Restart Home Assistant and add the integration from:
+
+**Settings → Devices & Services → Add Integration**
+
+## Configuration
+
+You will need:
+
+- DeyeCloud Username
+- DeyeCloud Password
+- App ID
+- App Secret
+- API Base URL
+
+For Europe use:
+
+```
+https://eu1-developer.deyecloud.com
+```
+
+## Available Sensors
+
+Depending on your installation, the integration can expose sensors such as:
+
+- PV Power
+- Grid Power
+- Load Power
+- Battery State of Charge
+- Battery Power
+- Battery Voltage
+- Daily Energy
+- Monthly Energy
+- Yearly Energy
+- Total Energy
+- Inverter Status
+
+The available sensors depend on the information provided by the DeyeCloud API.
+
+## Supported Systems
+
+The integration is intended for systems connected through the official DeyeCloud platform.
+
+## Languages
+
+- English
+- Svenska
 
 ## Security
 
-Never commit DeyeCloud passwords, App Secrets, access tokens, refresh tokens, `.env` files, or Home Assistant `secrets.yaml`.
+Credentials are stored using Home Assistant's secure storage.
+
+Never publish or commit:
+
+- Passwords
+- App Secrets
+- Access Tokens
+- Refresh Tokens
+- secrets.yaml
 
 ## Roadmap
 
-- 0.1.x: authentication and station discovery
-- 0.2.x: coordinator and station/device discovery
-- 0.3.x: read-only sensors
-- Later: diagnostics, energy dashboard support, and carefully gated control functions
+Planned improvements include:
+
+- Diagnostics support
+- Improved device metadata
+- Additional sensors
+- Energy Dashboard enhancements
+
+## License
+
+MIT License

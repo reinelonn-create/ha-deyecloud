@@ -1,282 +1,231 @@
-"""Sensor descriptions for the DeyeCloud integration."""
+"""Sensor platform for the DeyeCloud integration."""
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+import logging
+from typing import Any
 
-from homeassistant.components.sensor import (
-    SensorDeviceClass,
-    SensorEntityDescription,
-    SensorStateClass,
+from homeassistant.components.sensor import SensorEntity
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
+
+from .const import DOMAIN
+from .coordinator import DeyeCloudCoordinator
+from .entity import DeyeCloudEntity
+from .sensor_descriptions import (
+    DeyeCloudSensorEntityDescription,
+    SENSOR_DESCRIPTIONS,
 )
-from homeassistant.const import (
-    PERCENTAGE,
-    UnitOfElectricCurrent,
-    UnitOfElectricPotential,
-    UnitOfEnergy,
-    UnitOfFrequency,
-    UnitOfPower,
-    UnitOfTemperature,
-)
+
+_LOGGER = logging.getLogger(__name__)
 
 
-@dataclass(frozen=True, kw_only=True)
-class DeyeCloudSensorEntityDescription(SensorEntityDescription):
-    """Describe a DeyeCloud sensor."""
+async def async_setup_entry(
+    hass: HomeAssistant,
+    entry: ConfigEntry,
+    async_add_entities: AddConfigEntryEntitiesCallback,
+) -> None:
+    """Set up DeyeCloud sensors from a config entry."""
+    entry_data = hass.data[DOMAIN][entry.entry_id]
 
-    data_key: str
+    coordinator: DeyeCloudCoordinator = entry_data["coordinator"]
+    devices = entry_data.get("devices", [])
+
+    devices_by_serial = _index_devices_by_serial(devices)
+    entities: list[DeyeCloudSensor] = []
+
+    for device_sn in coordinator.device_sns:
+        device_data = _get_device_data(
+            coordinator=coordinator,
+            device_sn=device_sn,
+        )
+        available_keys = _get_available_measurement_keys(
+            device_data
+        )
+        device_metadata = devices_by_serial.get(device_sn, {})
+
+        created_count = 0
+
+        for description in SENSOR_DESCRIPTIONS:
+            if description.data_key not in available_keys:
+                continue
+
+            entities.append(
+                DeyeCloudSensor(
+                    coordinator=coordinator,
+                    device_sn=device_sn,
+                    device=device_metadata,
+                    description=description,
+                )
+            )
+            created_count += 1
+
+        _LOGGER.debug(
+            "Creating %s DeyeCloud sensors for device %s "
+            "from %s available measurements",
+            created_count,
+            device_sn,
+            len(available_keys),
+        )
+
+    async_add_entities(entities)
 
 
-SENSOR_DESCRIPTIONS: tuple[DeyeCloudSensorEntityDescription, ...] = (
-    # Existing sensors
-    DeyeCloudSensorEntityDescription(
-        key="solar_power",
-        translation_key="solar_power",
-        data_key="TotalSolarPower",
-        device_class=SensorDeviceClass.POWER,
-        native_unit_of_measurement=UnitOfPower.WATT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="inverter_output_power",
-        translation_key="inverter_output_power",
-        data_key="TotalInverterOutputPower",
-        device_class=SensorDeviceClass.POWER,
-        native_unit_of_measurement=UnitOfPower.WATT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="consumption_power",
-        translation_key="consumption_power",
-        data_key="TotalConsumptionPower",
-        device_class=SensorDeviceClass.POWER,
-        native_unit_of_measurement=UnitOfPower.WATT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="grid_power",
-        translation_key="grid_power",
-        data_key="TotalGridPower",
-        device_class=SensorDeviceClass.POWER,
-        native_unit_of_measurement=UnitOfPower.WATT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="battery_power",
-        translation_key="battery_power",
-        data_key="BatteryPower",
-        device_class=SensorDeviceClass.POWER,
-        native_unit_of_measurement=UnitOfPower.WATT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="battery_state_of_charge",
-        translation_key="battery_state_of_charge",
-        data_key="SOC",
-        device_class=SensorDeviceClass.BATTERY,
-        native_unit_of_measurement=PERCENTAGE,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="battery_voltage",
-        translation_key="battery_voltage",
-        data_key="BatteryVoltage",
-        device_class=SensorDeviceClass.VOLTAGE,
-        native_unit_of_measurement=UnitOfElectricPotential.VOLT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="battery_current",
-        translation_key="battery_current",
-        data_key="BatteryCurrent",
-        device_class=SensorDeviceClass.CURRENT,
-        native_unit_of_measurement=UnitOfElectricCurrent.AMPERE,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="daily_production",
-        translation_key="daily_production",
-        data_key="DailyActiveProduction",
-        device_class=SensorDeviceClass.ENERGY,
-        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
-        state_class=SensorStateClass.TOTAL,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="total_production",
-        translation_key="total_production",
-        data_key="TotalActiveProduction",
-        device_class=SensorDeviceClass.ENERGY,
-        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
-        state_class=SensorStateClass.TOTAL_INCREASING,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="daily_consumption",
-        translation_key="daily_consumption",
-        data_key="DailyConsumption",
-        device_class=SensorDeviceClass.ENERGY,
-        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
-        state_class=SensorStateClass.TOTAL,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="total_consumption",
-        translation_key="total_consumption",
-        data_key="TotalConsumption",
-        device_class=SensorDeviceClass.ENERGY,
-        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
-        state_class=SensorStateClass.TOTAL_INCREASING,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="daily_grid_feed_in",
-        translation_key="daily_grid_feed_in",
-        data_key="DailyGridFeedIn",
-        device_class=SensorDeviceClass.ENERGY,
-        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
-        state_class=SensorStateClass.TOTAL,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="daily_energy_purchased",
-        translation_key="daily_energy_purchased",
-        data_key="DailyEnergyPurchased",
-        device_class=SensorDeviceClass.ENERGY,
-        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
-        state_class=SensorStateClass.TOTAL,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="total_energy_bought",
-        translation_key="total_energy_bought",
-        data_key="TotalEnergyBuy",
-        device_class=SensorDeviceClass.ENERGY,
-        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
-        state_class=SensorStateClass.TOTAL_INCREASING,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="total_energy_sold",
-        translation_key="total_energy_sold",
-        data_key="TotalEnergySell",
-        device_class=SensorDeviceClass.ENERGY,
-        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
-        state_class=SensorStateClass.TOTAL_INCREASING,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="grid_frequency",
-        translation_key="grid_frequency",
-        data_key="GridFrequency",
-        device_class=SensorDeviceClass.FREQUENCY,
-        native_unit_of_measurement=UnitOfFrequency.HERTZ,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="battery_temperature",
-        translation_key="battery_temperature",
-        data_key="Temperature- Battery",
-        device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="inverter_temperature",
-        translation_key="inverter_temperature",
-        data_key="AC Temperature",
-        device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
+def _index_devices_by_serial(
+    devices: Any,
+) -> dict[str, dict[str, Any]]:
+    """Return device metadata indexed by serial number."""
+    devices_by_serial: dict[str, dict[str, Any]] = {}
 
-    # PV1-PV4
-    DeyeCloudSensorEntityDescription(
-        key="pv1_voltage",
-        translation_key="pv1_voltage",
-        data_key="DCVoltagePV1",
-        device_class=SensorDeviceClass.VOLTAGE,
-        native_unit_of_measurement=UnitOfElectricPotential.VOLT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="pv1_current",
-        translation_key="pv1_current",
-        data_key="DCCurrentPV1",
-        device_class=SensorDeviceClass.CURRENT,
-        native_unit_of_measurement=UnitOfElectricCurrent.AMPERE,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="pv1_power",
-        translation_key="pv1_power",
-        data_key="DCPowerPV1",
-        device_class=SensorDeviceClass.POWER,
-        native_unit_of_measurement=UnitOfPower.WATT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="pv2_voltage",
-        translation_key="pv2_voltage",
-        data_key="DCVoltagePV2",
-        device_class=SensorDeviceClass.VOLTAGE,
-        native_unit_of_measurement=UnitOfElectricPotential.VOLT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="pv2_current",
-        translation_key="pv2_current",
-        data_key="DCCurrentPV2",
-        device_class=SensorDeviceClass.CURRENT,
-        native_unit_of_measurement=UnitOfElectricCurrent.AMPERE,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="pv2_power",
-        translation_key="pv2_power",
-        data_key="DCPowerPV2",
-        device_class=SensorDeviceClass.POWER,
-        native_unit_of_measurement=UnitOfPower.WATT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="pv3_voltage",
-        translation_key="pv3_voltage",
-        data_key="DCVoltagePV3",
-        device_class=SensorDeviceClass.VOLTAGE,
-        native_unit_of_measurement=UnitOfElectricPotential.VOLT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="pv3_current",
-        translation_key="pv3_current",
-        data_key="DCCurrentPV3",
-        device_class=SensorDeviceClass.CURRENT,
-        native_unit_of_measurement=UnitOfElectricCurrent.AMPERE,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="pv3_power",
-        translation_key="pv3_power",
-        data_key="DCPowerPV3",
-        device_class=SensorDeviceClass.POWER,
-        native_unit_of_measurement=UnitOfPower.WATT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="pv4_voltage",
-        translation_key="pv4_voltage",
-        data_key="DCVoltagePV4",
-        device_class=SensorDeviceClass.VOLTAGE,
-        native_unit_of_measurement=UnitOfElectricPotential.VOLT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="pv4_current",
-        translation_key="pv4_current",
-        data_key="DCCurrentPV4",
-        device_class=SensorDeviceClass.CURRENT,
-        native_unit_of_measurement=UnitOfElectricCurrent.AMPERE,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-    DeyeCloudSensorEntityDescription(
-        key="pv4_power",
-        translation_key="pv4_power",
-        data_key="DCPowerPV4",
-        device_class=SensorDeviceClass.POWER,
-        native_unit_of_measurement=UnitOfPower.WATT,
-        state_class=SensorStateClass.MEASUREMENT,
-    ),
-)
+    if not isinstance(devices, list):
+        return devices_by_serial
+
+    for device in devices:
+        if not isinstance(device, dict):
+            continue
+
+        device_sn = device.get("deviceSn")
+
+        if device_sn in (None, ""):
+            continue
+
+        devices_by_serial[str(device_sn)] = device
+
+    return devices_by_serial
+
+
+def _get_device_data(
+    coordinator: DeyeCloudCoordinator,
+    device_sn: str,
+) -> dict[str, Any]:
+    """Return coordinator data for one device."""
+    coordinator_data = coordinator.data
+
+    if not isinstance(coordinator_data, dict):
+        return {}
+
+    device_data = coordinator_data.get(device_sn, {})
+
+    if not isinstance(device_data, dict):
+        return {}
+
+    return device_data
+
+
+def _get_available_measurement_keys(
+    device_data: dict[str, Any],
+) -> set[str]:
+    """Return measurement keys available for a device."""
+    values = device_data.get("values", {})
+
+    if not isinstance(values, dict):
+        return set()
+
+    return {
+        str(data_key)
+        for data_key, measurement in values.items()
+        if isinstance(measurement, dict)
+    }
+
+
+class DeyeCloudSensor(
+    DeyeCloudEntity,
+    SensorEntity,
+):
+    """Representation of a DeyeCloud sensor."""
+
+    _attr_has_entity_name = True
+
+    entity_description: DeyeCloudSensorEntityDescription
+
+    def __init__(
+        self,
+        coordinator: DeyeCloudCoordinator,
+        device_sn: str,
+        device: dict[str, Any],
+        description: DeyeCloudSensorEntityDescription,
+    ) -> None:
+        """Initialize a DeyeCloud sensor."""
+        super().__init__(
+            coordinator=coordinator,
+            device_sn=device_sn,
+            device=device,
+        )
+
+        self.entity_description = description
+
+        # Keep the established unique ID format so existing entities
+        # retain their registry entries and history.
+        self._attr_unique_id = (
+            f"{device_sn}_{description.data_key}"
+        )
+
+    @property
+    def available(self) -> bool:
+        """Return whether the sensor is available."""
+        if not super().available:
+            return False
+
+        measurement = self.get_measurement(
+            self.entity_description.data_key
+        )
+
+        if measurement is None:
+            return False
+
+        return measurement.get("value") not in (None, "")
+
+    @property
+    def native_value(self) -> float | None:
+        """Return the current numeric sensor value."""
+        raw_value = self.get_measurement_value(
+            self.entity_description.data_key
+        )
+
+        if raw_value in (None, ""):
+            return None
+
+        try:
+            return float(raw_value)
+        except (TypeError, ValueError):
+            _LOGGER.debug(
+                "Unable to convert DeyeCloud value %r for %s "
+                "on device %s",
+                raw_value,
+                self.entity_description.data_key,
+                self._device_sn,
+            )
+            return None
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        """Return diagnostic attributes for the measurement."""
+        device_data = self.device_data
+
+        attributes: dict[str, Any] = {
+            "device_serial_number": self._device_sn,
+            "deye_data_key": self.entity_description.data_key,
+        }
+
+        device_type = device_data.get("device_type")
+        device_state = device_data.get("device_state")
+        collection_time = device_data.get("collection_time")
+
+        if device_type is not None:
+            attributes["device_type"] = device_type
+
+        if device_state is not None:
+            attributes["device_state"] = device_state
+
+        if collection_time is not None:
+            attributes["collection_time"] = collection_time
+
+        api_unit = self.get_measurement_unit(
+            self.entity_description.data_key
+        )
+
+        if api_unit is not None:
+            attributes["deye_api_unit"] = api_unit
+
+        return attributes

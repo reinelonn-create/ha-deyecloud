@@ -29,7 +29,7 @@ class DeyeCloudSensorEntityDescription(SensorEntityDescription):
 
 def _sensor(
     key: str,
-    name: str,
+    _name: str,
     data_key: str,
     *,
     device_class: SensorDeviceClass | None = None,
@@ -40,7 +40,7 @@ def _sensor(
 
     return DeyeCloudSensorEntityDescription(
         key=key,
-        name=name,
+        translation_key=key,
         data_key=data_key,
         device_class=device_class,
         native_unit_of_measurement=unit,
