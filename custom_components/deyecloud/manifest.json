@@ -1,11 +1,13 @@
 {
   "domain": "deyecloud",
   "name": "DeyeCloud",
-  "codeowners": ["@reinelonn-create"],
+  "codeowners": [
+    "@reinelonn-create"
+  ],
   "config_flow": true,
   "documentation": "https://developer.deyecloud.com/start",
   "issue_tracker": "https://github.com/reinelonn-create/ha-deyecloud/issues",
   "iot_class": "cloud_polling",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "integration_type": "hub"
 }
