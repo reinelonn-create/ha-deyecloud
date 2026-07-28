@@ -4,6 +4,7 @@
   "codeowners": ["@reinelonn-create"],
   "config_flow": true,
   "documentation": "https://developer.deyecloud.com/start",
+  "issue_tracker": "https://github.com/reinelonn-create/ha-deyecloud/issues",
   "iot_class": "cloud_polling",
   "version": "1.0.0",
   "integration_type": "hub"
